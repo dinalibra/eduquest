@@ -126,6 +126,48 @@
 </section>
 
 
+<!-- LEADERBOARD -->
+<section class="leaderboard-section" id="leaderboard">
+  <div class="leaderboard-heading">
+    <div>
+      <p class="section-label">🏆 HALL OF FAME</p>
+      <h2>Papan Peringkat</h2>
+      <p>Kumpulkan XP dan jadilah juara EduQuest!</p>
+    </div>
+  </div>
+
+  
+<div class="leaderboard-controls">
+  <label for="leaderboard-name">Nama panggilan:</label>
+  <input
+    type="text"
+    id="leaderboard-name"
+    placeholder="Contoh: Bintang"
+    maxlength="20"
+  />
+  <button type="button" id="save-leaderboard-name">
+    Simpan Nama
+  </button>
+
+  <label for="leaderboard-grade">Pilih kelas:</label>
+  <select id="leaderboard-grade">
+    <option value="7">Kelas 7</option>
+    <option value="8">Kelas 8</option>
+    <option value="9">Kelas 9</option>
+  </select>
+</div>
+
+
+  <div id="leaderboard-list" class="leaderboard-list">
+    <p>Memuat papan peringkat...</p>
+  </div>
+
+  <p class="leaderboard-note">
+    Peringkat pada versi awal ini tersimpan di browser yang digunakan.
+  </p>
+</section>
+
+
     <section id="quiz-panel" class="quiz-panel hidden">
       <div class="quiz-top">
         <button id="back-button" class="back-button">← Kembali</button>

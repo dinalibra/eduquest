@@ -173,12 +173,29 @@ let selectedGrade = "7";
 let xpEarnedThisQuiz = 0;
 
 
-function loadProgress() {
-  try {
-    const saved = JSON.parse(localStorage.getItem("eduquest-progress"));
 
-    if (saved && typeof saved.xp === "number" &&
-        typeof saved.completed === "number") {
+/* PENYIMPANAN PROGRES BERDASARKAN NAMA DAN KELAS */
+
+function getProgressStorageKey(name, grade) {
+  const cleanName = (name || "").trim().toLowerCase();
+
+  if (!cleanName) {
+    return `eduquest-progress:guest:${grade}`;
+  }
+
+  return `eduquest-progress:${grade}:${encodeURIComponent(cleanName)}`;
+}
+
+function loadProgress(name, grade) {
+  try {
+    const key = getProgressStorageKey(name, grade);
+    const saved = JSON.parse(localStorage.getItem(key));
+
+    if (
+      saved &&
+      typeof saved.xp === "number" &&
+      typeof saved.completed === "number"
+    ) {
       return {
         xp: Math.max(0, saved.xp),
         completed: Math.max(0, saved.completed),
@@ -192,16 +209,45 @@ function loadProgress() {
   return { xp: 0, completed: 0, perfectCount: 0 };
 }
 
+// Profil yang sedang aktif
+let activeProfileName =
+  localStorage.getItem("eduquest-player-name") || "";
 
-let progress = loadProgress();
+let activeProfileGrade = selectedGrade;
 
+let progress = loadProgress(
+  activeProfileName,
+  activeProfileGrade
+);
+
+// Simpan progres ke profil yang sedang aktif
 function saveProgress() {
   try {
-    localStorage.setItem("eduquest-progress", JSON.stringify(progress));
+    const key = getProgressStorageKey(
+      activeProfileName,
+      activeProfileGrade
+    );
+
+    localStorage.setItem(key, JSON.stringify(progress));
   } catch (error) {
-    console.warn("Progres tidak dapat disimpan di browser.", error);
+    console.warn("Progres tidak dapat disimpan.", error);
   }
 }
+
+// Beralih ke profil berdasarkan nama dan kelas
+function activateProfile(name, grade) {
+  activeProfileName = (name || "").trim().slice(0, 20);
+  activeProfileGrade = String(grade);
+
+  progress = loadProgress(
+    activeProfileName,
+    activeProfileGrade
+  );
+
+  updateStats();
+  updateAchievements();
+}
+
 
 function updateStats() {
   $("xp").textContent = progress.xp;
@@ -303,7 +349,38 @@ function nextQuestion() {
 }
 
 
+
+
 function finishQuiz() {
+  let name =
+    localStorage.getItem("eduquest-player-name") || "";
+
+  // Minta nama jika siswa belum mengisi profil
+  if (!name.trim()) {
+    const enteredName = prompt(
+      "Masukkan nama panggilan untuk menyimpan progres:"
+    );
+
+    if (!enteredName || !enteredName.trim()) {
+      alert(
+        "Silakan masukkan nama agar progres dapat disimpan."
+      );
+      return;
+    }
+
+    name = enteredName.trim().slice(0, 20);
+
+    localStorage.setItem("eduquest-player-name", name);
+
+    const nameInput = $("leaderboard-name");
+    if (nameInput) {
+      nameInput.value = name;
+    }
+  }
+
+  // Pastikan profil yang benar aktif sebelum XP ditambahkan
+  activateProfile(name, selectedGrade);
+
   xpEarnedThisQuiz = score * 10;
   progress.xp += xpEarnedThisQuiz;
   progress.completed++;
@@ -312,15 +389,23 @@ function finishQuiz() {
     progress.perfectCount++;
   }
 
+  // Simpan progres profil ini
   saveProgress();
+
+  // Perbarui papan peringkat
+  saveLeaderboardScore(selectedGrade, xpEarnedThisQuiz);
+
   updateStats();
   updateAchievements();
 
   $("quiz-panel").classList.add("hidden");
   $("result-panel").classList.remove("hidden");
 
-  $("final-score").textContent = `${score}/${questions.length}`;
-  $("earned-xp").textContent = `+${xpEarnedThisQuiz} XP`;
+  $("final-score").textContent =
+    `${score}/${questions.length}`;
+
+  $("earned-xp").textContent =
+    `+${xpEarnedThisQuiz} XP`;
 
   if (score === questions.length) {
     $("result-message").textContent =
@@ -337,6 +422,8 @@ function finishQuiz() {
 }
 
 
+
+
 function backToLearning() {
   $("quiz-panel").classList.add("hidden");
   $("result-panel").classList.add("hidden");
@@ -344,18 +431,28 @@ function backToLearning() {
   window.scrollTo({ top: $("belajar").offsetTop - 20, behavior: "smooth" });
 }
 
+
 document.querySelectorAll(".class-button").forEach((button) => {
   button.addEventListener("click", () => {
-    selectedGrade = button.dataset.grade;
+    selectedGrade = String(button.dataset.grade);
 
     document.querySelectorAll(".class-button").forEach((item) => {
       item.classList.remove("active");
     });
 
     button.classList.add("active");
-    $("start-quiz").textContent = `Kuis Kelas ${selectedGrade} →`;
+
+    $("start-quiz").textContent =
+      `Kuis Kelas ${selectedGrade} →`;
+
+    const savedName =
+      localStorage.getItem("eduquest-player-name") || "";
+
+    // Muat progres nama tersebut untuk kelas yang dipilih
+    activateProfile(savedName, selectedGrade);
   });
 });
+
 
 $("start-quiz").addEventListener("click", startQuiz);
 $("next-button").addEventListener("click", nextQuestion);
@@ -394,4 +491,185 @@ function updateAchievements() {
       : "Belum terbuka";
   });
 }
+
+/* =========================
+   LEADERBOARD EDUQUEST
+========================= */
+
+const LEADERBOARD_KEY = "eduquest-leaderboard";
+const PLAYER_NAME_KEY = "eduquest-player-name";
+
+// Membaca data leaderboard
+function getLeaderboardData() {
+  try {
+    const data = JSON.parse(
+      localStorage.getItem(LEADERBOARD_KEY)
+    );
+
+    return Array.isArray(data) ? data : [];
+  } catch (error) {
+    return [];
+  }
+}
+
+// Menyimpan nama panggilan
+
+function saveLeaderboardName() {
+  const input = $("leaderboard-name");
+  if (!input) return;
+
+  const name = input.value.trim();
+
+  if (!name) {
+    alert("Silakan isi nama panggilan terlebih dahulu.");
+    return;
+  }
+
+  const safeName = name.slice(0, 20);
+
+  localStorage.setItem("eduquest-player-name", safeName);
+
+  // Muat progres sesuai nama dan kelas kuis aktif
+  activateProfile(safeName, selectedGrade);
+
+  renderLeaderboard();
+
+  alert(
+    `Profil ${safeName}, kelas ${selectedGrade}, berhasil dibuka.`
+  );
+}
+
+
+// Menampilkan papan peringkat
+function renderLeaderboard() {
+  const list = $("leaderboard-list");
+  const gradeSelect = $("leaderboard-grade");
+
+  if (!list || !gradeSelect) return;
+
+  const grade = gradeSelect.value;
+
+  const students = getLeaderboardData()
+    .filter(student => student.grade === grade)
+    .sort((a, b) => b.xp - a.xp)
+    .slice(0, 10);
+
+  list.replaceChildren();
+
+  if (students.length === 0) {
+    const message = document.createElement("p");
+    message.textContent =
+      "Belum ada skor di kelas ini. Yuk, mulai belajar!";
+    list.appendChild(message);
+    return;
+  }
+
+  students.forEach((student, index) => {
+    const row = document.createElement("div");
+    row.className = "leaderboard-row";
+
+    const rank = document.createElement("div");
+    rank.className = "leaderboard-rank";
+    rank.textContent = ["🥇", "🥈", "🥉"][index] ||
+      `#${index + 1}`;
+
+    const info = document.createElement("div");
+    info.className = "leaderboard-student";
+
+    const name = document.createElement("strong");
+    name.textContent = student.name;
+
+    const classInfo = document.createElement("small");
+    classInfo.textContent = `Siswa kelas ${student.grade}`;
+
+    info.append(name, classInfo);
+
+    const xp = document.createElement("div");
+    xp.className = "leaderboard-xp";
+    xp.textContent = `${student.xp} XP`;
+
+    row.append(rank, info, xp);
+    list.appendChild(row);
+  });
+}
+
+// Mencatat XP setelah kuis selesai
+function saveLeaderboardScore(grade, earnedXP) {
+  let name = localStorage.getItem(PLAYER_NAME_KEY);
+
+  if (!name) {
+    name = prompt(
+      "Masukkan nama panggilan untuk leaderboard:"
+    );
+
+    if (!name || !name.trim()) {
+      alert(
+        "XP tetap tersimpan, tetapi skor tidak masuk leaderboard karena nama belum diisi."
+      );
+      return;
+    }
+
+    name = name.trim().slice(0, 20);
+    localStorage.setItem(PLAYER_NAME_KEY, name);
+
+    const input = $("leaderboard-name");
+    if (input) input.value = name;
+  }
+
+  const students = getLeaderboardData();
+
+  // Nama dan kelas yang sama dianggap sebagai profil yang sama
+  let student = students.find(item =>
+    item.name.toLowerCase() === name.toLowerCase() &&
+    item.grade === grade
+  );
+
+  if (student) {
+    student.xp += earnedXP;
+  } else {
+    students.push({
+      name: name,
+      grade: grade,
+      xp: earnedXP
+    });
+  }
+
+  localStorage.setItem(
+    LEADERBOARD_KEY,
+    JSON.stringify(students)
+  );
+
+  renderLeaderboard();
+}
+
+// Menyiapkan tombol dan filter
+function initLeaderboard() {
+  const input = $("leaderboard-name");
+  const saveButton = $("save-leaderboard-name");
+  const gradeSelect = $("leaderboard-grade");
+
+  if (input) {
+    input.value =
+      localStorage.getItem(PLAYER_NAME_KEY) || "";
+  }
+
+  if (saveButton) {
+    saveButton.addEventListener(
+      "click",
+      saveLeaderboardName
+    );
+  }
+
+  if (gradeSelect) {
+    gradeSelect.addEventListener(
+      "change",
+      renderLeaderboard
+    );
+  }
+
+  renderLeaderboard();
+}
+
+initLeaderboard();
+
 
