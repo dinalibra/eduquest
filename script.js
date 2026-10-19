@@ -1,0 +1,397 @@
+
+
+const questionBank = {
+  "7": [
+    {
+      question: "Apa yang dimaksud dengan algoritma?",
+      options: [
+        "Urutan langkah untuk menyelesaikan masalah",
+        "Alat untuk mencetak dokumen",
+        "Nama perangkat komputer",
+        "Aplikasi untuk menggambar"
+      ],
+      answer: 0,
+      explanation: "Algoritma adalah urutan langkah yang logis untuk menyelesaikan masalah."
+    },
+    {
+      question: "Manakah yang termasuk perangkat keras?",
+      options: ["Microsoft Word", "Keyboard", "Windows", "Google Chrome"],
+      answer: 1,
+      explanation: "Keyboard merupakan perangkat keras yang dapat disentuh dan digunakan untuk memasukkan data."
+    },
+    {
+      question: "Apa fungsi utama CPU?",
+      options: [
+        "Mencetak foto",
+        "Menghubungkan komputer ke meja",
+        "Memproses instruksi dan data",
+        "Membersihkan layar"
+      ],
+      answer: 2,
+      explanation: "CPU memproses instruksi dan data dalam sistem komputer."
+    },
+    {
+      question: "Memecah masalah besar menjadi bagian kecil disebut ...",
+      options: ["Duplikasi", "Dekomposisi", "Dekorasi", "Simulasi"],
+      answer: 1,
+      explanation: "Dekomposisi membuat masalah kompleks lebih mudah diselesaikan."
+    },
+    {
+      question: "Apa contoh kata sandi yang lebih aman?",
+      options: [
+        "123456",
+        "password",
+        "Tanggal lahir saja",
+        "Kombinasi panjang yang unik dan sulit ditebak"
+      ],
+      answer: 3,
+      explanation: "Kata sandi yang panjang, unik, dan sulit ditebak lebih baik untuk melindungi akun."
+    }
+  ],
+
+  "8": [
+    {
+      question: "Apa tujuan penggunaan percabangan IF dalam pemrograman?",
+      options: [
+        "Mengubah warna monitor",
+        "Menentukan tindakan berdasarkan kondisi",
+        "Menghapus semua program",
+        "Memperbesar ukuran keyboard"
+      ],
+      answer: 1,
+      explanation: "IF memungkinkan program memilih tindakan berdasarkan kondisi benar atau salah."
+    },
+    {
+      question: "Apa fungsi variabel dalam program?",
+      options: [
+        "Menyimpan nilai atau data",
+        "Membersihkan komputer",
+        "Menghubungkan kabel listrik",
+        "Mencetak halaman"
+      ],
+      answer: 0,
+      explanation: "Variabel digunakan untuk menyimpan nilai yang dapat digunakan atau diubah oleh program."
+    },
+    {
+      question: "Bilangan biner menggunakan angka ...",
+      options: ["0 dan 1", "1 dan 2", "0 sampai 9", "A sampai F saja"],
+      answer: 0,
+      explanation: "Sistem bilangan biner hanya menggunakan dua digit, yaitu 0 dan 1."
+    },
+    {
+      question: "Apa fungsi utama spreadsheet seperti Microsoft Excel?",
+      options: [
+        "Mengedit video saja",
+        "Membuat sistem operasi",
+        "Mengolah data dalam tabel dan melakukan perhitungan",
+        "Menggantikan perangkat keras"
+      ],
+      answer: 2,
+      explanation: "Spreadsheet membantu mengelola data, menggunakan rumus, dan menyajikan informasi."
+    },
+    {
+      question: "Mengapa kita perlu memeriksa kebenaran informasi di internet?",
+      options: [
+        "Semua informasi di internet pasti benar",
+        "Informasi yang beredar belum tentu akurat",
+        "Supaya tidak perlu membaca sumber",
+        "Agar semua berita menjadi sama"
+      ],
+      answer: 1,
+      explanation: "Memeriksa sumber dan membandingkan informasi membantu menghindari berita keliru."
+    }
+  ],
+
+  "9": [
+    {
+      question: "Apa tujuan utama pengujian program (debugging)?",
+      options: [
+        "Menambah ukuran monitor",
+        "Mencari dan memperbaiki kesalahan program",
+        "Menghapus semua data pengguna",
+        "Mengganti komputer baru"
+      ],
+      answer: 1,
+      explanation: "Debugging membantu menemukan dan memperbaiki kesalahan agar program berjalan sesuai tujuan."
+    },
+    {
+      question: "Apa yang dimaksud dengan phishing?",
+      options: [
+        "Teknik menipu untuk memperoleh informasi sensitif",
+        "Cara membersihkan layar",
+        "Metode membuat tabel",
+        "Jenis perangkat input"
+      ],
+      answer: 0,
+      explanation: "Phishing adalah upaya penipuan yang mencoba memperoleh informasi seperti kata sandi melalui pesan atau situs palsu."
+    },
+    {
+      question: "Apa fungsi struktur data dalam pemrograman?",
+      options: [
+        "Mengatur dan menyimpan data agar dapat digunakan dengan efektif",
+        "Mengatur pencahayaan ruangan",
+        "Mempercepat koneksi listrik",
+        "Mengganti bahasa manusia"
+      ],
+      answer: 0,
+      explanation: "Struktur data mengorganisasi data sehingga operasi tertentu bisa dilakukan dengan lebih efektif."
+    },
+    {
+      question: "Apa manfaat menggunakan autentikasi dua faktor?",
+      options: [
+        "Membuat kata sandi terlihat oleh semua orang",
+        "Menghapus kebutuhan keamanan",
+        "Menambahkan lapisan perlindungan saat masuk ke akun",
+        "Membagikan akun kepada orang lain"
+      ],
+      answer: 2,
+      explanation: "Autentikasi dua faktor menambahkan verifikasi selain kata sandi untuk melindungi akun."
+    },
+    {
+      question: "Mengapa data perlu dicadangkan (backup)?",
+      options: [
+        "Agar data lebih mudah hilang",
+        "Untuk membantu memulihkan data jika data utama hilang atau rusak",
+        "Supaya komputer selalu mati",
+        "Untuk menghapus file penting"
+      ],
+      answer: 1,
+      explanation: "Cadangan data membantu memulihkan file ketika data utama terhapus, rusak, atau tidak bisa diakses."
+    }
+  ]
+};
+
+let questions = questionBank["7"];
+
+
+const $ = (id) => document.getElementById(id);
+
+let currentQuestion = 0;
+let score = 0;
+let answered = false;
+let selectedGrade = "7";
+let xpEarnedThisQuiz = 0;
+
+
+function loadProgress() {
+  try {
+    const saved = JSON.parse(localStorage.getItem("eduquest-progress"));
+
+    if (saved && typeof saved.xp === "number" &&
+        typeof saved.completed === "number") {
+      return {
+        xp: Math.max(0, saved.xp),
+        completed: Math.max(0, saved.completed),
+        perfectCount: Math.max(0, saved.perfectCount || 0)
+      };
+    }
+  } catch (error) {
+    console.warn("Progres belum dapat dibaca.", error);
+  }
+
+  return { xp: 0, completed: 0, perfectCount: 0 };
+}
+
+
+let progress = loadProgress();
+
+function saveProgress() {
+  try {
+    localStorage.setItem("eduquest-progress", JSON.stringify(progress));
+  } catch (error) {
+    console.warn("Progres tidak dapat disimpan di browser.", error);
+  }
+}
+
+function updateStats() {
+  $("xp").textContent = progress.xp;
+  $("stat-xp").textContent = progress.xp;
+  $("level").textContent = Math.floor(progress.xp / 50) + 1;
+  $("completed").textContent = progress.completed;
+}
+
+function startQuiz() {
+  questions = questionBank[selectedGrade];
+
+  currentQuestion = 0;
+  score = 0;
+  answered = false;
+  xpEarnedThisQuiz = 0;
+
+  $("result-panel").classList.add("hidden");
+  $("belajar").classList.add("hidden");
+  $("quiz-panel").classList.remove("hidden");
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+  showQuestion();
+}
+
+function showQuestion() {
+  answered = false;
+
+  const item = questions[currentQuestion];
+
+  $("question-counter").textContent =
+    `Pertanyaan ${currentQuestion + 1} dari ${questions.length}`;
+
+  $("progress-bar").style.width =
+    `${(currentQuestion / questions.length) * 100}%`;
+
+  $("question-text").textContent = item.question;
+  $("feedback").textContent = "";
+  $("next-button").disabled = true;
+
+  const optionsContainer = $("answer-options");
+  optionsContainer.replaceChildren();
+
+  item.options.forEach((option, index) => {
+    const button = document.createElement("button");
+    button.className = "answer-option";
+    button.textContent = `${String.fromCharCode(65 + index)}. ${option}`;
+    button.addEventListener("click", () => chooseAnswer(index));
+    optionsContainer.appendChild(button);
+  });
+}
+
+function chooseAnswer(selectedIndex) {
+  if (answered) return;
+  answered = true;
+
+  const item = questions[currentQuestion];
+  const buttons = $("answer-options").querySelectorAll("button");
+
+  buttons.forEach((button) => {
+    button.disabled = true;
+  });
+
+  if (selectedIndex === item.answer) {
+    score++;
+    buttons[selectedIndex].classList.add("correct");
+    $("feedback").textContent = "✅ Benar! +10 XP untuk jawaban ini.";
+    $("feedback").style.color = "#128451";
+  } else {
+    buttons[selectedIndex].classList.add("incorrect");
+    buttons[item.answer].classList.add("correct");
+    $("feedback").textContent =
+      `💡 Belum tepat. ${item.explanation}`;
+    $("feedback").style.color = "#a14a32";
+  }
+
+  if (selectedIndex === item.answer) {
+    $("feedback").textContent = `✅ Benar! ${item.explanation}`;
+  }
+
+  $("progress-bar").style.width =
+    `${((currentQuestion + 1) / questions.length) * 100}%`;
+
+  $("next-button").disabled = false;
+  $("next-button").textContent =
+    currentQuestion === questions.length - 1
+      ? "Lihat Hasil 🏆"
+      : "Pertanyaan Berikutnya →";
+}
+
+function nextQuestion() {
+  if (!answered) return;
+
+  if (currentQuestion < questions.length - 1) {
+    currentQuestion++;
+    showQuestion();
+  } else {
+    finishQuiz();
+  }
+}
+
+
+function finishQuiz() {
+  xpEarnedThisQuiz = score * 10;
+  progress.xp += xpEarnedThisQuiz;
+  progress.completed++;
+
+  if (score === questions.length) {
+    progress.perfectCount++;
+  }
+
+  saveProgress();
+  updateStats();
+  updateAchievements();
+
+  $("quiz-panel").classList.add("hidden");
+  $("result-panel").classList.remove("hidden");
+
+  $("final-score").textContent = `${score}/${questions.length}`;
+  $("earned-xp").textContent = `+${xpEarnedThisQuiz} XP`;
+
+  if (score === questions.length) {
+    $("result-message").textContent =
+      "Sempurna! Semua jawabanmu benar. Lencana Jawaban Sempurna terbuka!";
+  } else if (score >= 3) {
+    $("result-message").textContent =
+      "Bagus! Terus berlatih agar pengetahuanmu semakin kuat.";
+  } else {
+    $("result-message").textContent =
+      "Jangan menyerah! Pelajari pembahasan dan coba lagi.";
+  }
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+
+function backToLearning() {
+  $("quiz-panel").classList.add("hidden");
+  $("result-panel").classList.add("hidden");
+  $("belajar").classList.remove("hidden");
+  window.scrollTo({ top: $("belajar").offsetTop - 20, behavior: "smooth" });
+}
+
+document.querySelectorAll(".class-button").forEach((button) => {
+  button.addEventListener("click", () => {
+    selectedGrade = button.dataset.grade;
+
+    document.querySelectorAll(".class-button").forEach((item) => {
+      item.classList.remove("active");
+    });
+
+    button.classList.add("active");
+    $("start-quiz").textContent = `Kuis Kelas ${selectedGrade} →`;
+  });
+});
+
+$("start-quiz").addEventListener("click", startQuiz);
+$("next-button").addEventListener("click", nextQuestion);
+$("back-button").addEventListener("click", backToLearning);
+$("retry-button").addEventListener("click", startQuiz);
+
+updateStats();
+updateAchievements();
+
+
+function updateAchievements() {
+  const achievements = [
+    {
+      id: "badge-first",
+      unlocked: progress.completed >= 1
+    },
+    {
+      id: "badge-perfect",
+      unlocked: progress.perfectCount >= 1
+    },
+    {
+      id: "badge-explorer",
+      unlocked: progress.completed >= 5
+    }
+  ];
+
+  achievements.forEach((achievement) => {
+    const card = $(achievement.id);
+    if (!card) return;
+
+    card.classList.toggle("unlocked", achievement.unlocked);
+
+    const status = card.querySelector(".badge-status");
+    status.textContent = achievement.unlocked
+      ? "✓ Terbuka"
+      : "Belum terbuka";
+  });
+}
+

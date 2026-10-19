@@ -1,0 +1,161 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduQuest - Belajar Seru, Naik Level!</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="navbar">
+    <a class="logo" href="#">
+      <span class="logo-icon">🎓</span>
+      EduQuest
+    </a>
+    <div class="xp-badge">⚡ <span id="xp">0</span> XP</div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div class="hero-text">
+        <span class="eyebrow">🚀 PETUALANGAN BELAJAR DIMULAI!</span>
+        <h1>Belajar Seru,<br><span>Naik Level!</span></h1>
+        <p>Belajar jadi lebih menyenangkan. Jawab kuis, kumpulkan XP, dan jadilah juara belajar!</p>
+        <a href="#belajar" class="primary-button">Mulai Petualangan →</a>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="planet">🪐</div>
+        <div class="book">📚</div>
+        <div class="rocket">🚀</div>
+        <div class="star">⭐</div>
+      </div>
+    </section>
+
+    <section class="stats">
+      <div class="stat-card">
+        <span>⚡</span>
+        <div><strong id="stat-xp">0</strong><small>Total XP</small></div>
+      </div>
+      <div class="stat-card">
+        <span>🏆</span>
+        <div><strong id="level">1</strong><small>Level kamu</small></div>
+      </div>
+      <div class="stat-card">
+        <span>✅</span>
+        <div><strong id="completed">0</strong><small>Kuis selesai</small></div>
+      </div>
+    </section>
+
+    <section id="belajar" class="learning-section">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">PILIH PETUALANGANMU</span>
+          <h2>Mau belajar apa hari ini?</h2>
+        </div>
+      </div>
+
+      <div class="class-selector">
+        <span>Pilih kelas:</span>
+        <button class="class-button active" data-grade="7">Kelas 7</button>
+        <button class="class-button" data-grade="8">Kelas 8</button>
+        <button class="class-button" data-grade="9">Kelas 9</button>
+      </div>
+
+      <div class="subject-grid">
+        <article class="subject-card informatics">
+          <div class="subject-icon">💻</div>
+          <span class="subject-tag">MISI POPULER</span>
+          <h3>Informatika</h3>
+          <p>Kenali algoritma, komputer, dan dunia digital melalui kuis seru.</p>
+          <div class="card-footer">
+            <span>📝 5 pertanyaan</span>
+            <button id="start-quiz" class="card-button">Mulai Kuis →</button>
+          </div>
+        </article>
+
+        <article class="subject-card math">
+          <div class="subject-icon">🔢</div>
+          <span class="subject-tag">SEGERA HADIR</span>
+          <h3>Matematika</h3>
+          <p>Latih logika dan kemampuan berhitung sambil mengumpulkan poin.</p>
+          <div class="card-footer"><span>🎯 Latihan logika</span></div>
+        </article>
+
+        <article class="subject-card science">
+          <div class="subject-icon">🔬</div>
+          <span class="subject-tag">SEGERA HADIR</span>
+          <h3>IPA</h3>
+          <p>Jelajahi sains, alam, dan berbagai fakta menarik di sekitar kita.</p>
+          <div class="card-footer"><span>🌱 Belajar sains</span></div>
+        </article>
+      </div>
+    </section>
+    
+<section class="achievement-section">
+  <div class="section-heading">
+    <span class="eyebrow">PENCAPAIANMU</span>
+    <h2>Koleksi Lencana 🏅</h2>
+    <p class="achievement-description">
+      Selesaikan kuis untuk membuka lencana prestasi.
+    </p>
+  </div>
+
+  <div class="achievement-grid">
+    <article class="achievement-card" id="badge-first">
+      <div class="achievement-icon">🌟</div>
+      <h3>Langkah Pertama</h3>
+      <p>Selesaikan kuis pertamamu.</p>
+      <span class="badge-status">Belum terbuka</span>
+    </article>
+
+    <article class="achievement-card" id="badge-perfect">
+      <div class="achievement-icon">💎</div>
+      <h3>Jawaban Sempurna</h3>
+      <p>Jawab semua pertanyaan dengan benar.</p>
+      <span class="badge-status">Belum terbuka</span>
+    </article>
+
+    <article class="achievement-card" id="badge-explorer">
+      <div class="achievement-icon">🚀</div>
+      <h3>Penjelajah Hebat</h3>
+      <p>Selesaikan 5 kuis.</p>
+      <span class="badge-status">Belum terbuka</span>
+    </article>
+  </div>
+</section>
+
+
+    <section id="quiz-panel" class="quiz-panel hidden">
+      <div class="quiz-top">
+        <button id="back-button" class="back-button">← Kembali</button>
+        <span id="question-counter">Pertanyaan 1 dari 5</span>
+      </div>
+      <div class="progress-track"><div id="progress-bar"></div></div>
+      <span class="eyebrow">MISI INFORMATIKA</span>
+      <h2 id="question-text">Pertanyaan akan muncul di sini</h2>
+      <div id="answer-options" class="answer-options"></div>
+      <p id="feedback" class="feedback" aria-live="polite"></p>
+      <button id="next-button" class="primary-button next-button" disabled>Jawaban Berikutnya →</button>
+    </section>
+
+    <section id="result-panel" class="result-panel hidden">
+      <div class="result-emoji">🏆</div>
+      <span class="eyebrow">MISI SELESAI!</span>
+      <h2>Kerja bagus, Penjelajah!</h2>
+      <p id="result-message">Kamu sudah menyelesaikan kuis.</p>
+      <div class="result-score">
+        <div><strong id="final-score">0/5</strong><small>Jawaban benar</small></div>
+        <div><strong id="earned-xp">0 XP</strong><small>XP diperoleh</small></div>
+      </div>
+      <button id="retry-button" class="primary-button">Main Lagi ↻</button>
+    </section>
+
+    <footer>
+      <p>© 2026 EduQuest · Belajar lebih seru setiap hari ✨</p>
+    </footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
