@@ -270,6 +270,13 @@ function startQuiz() {
 
   window.scrollTo({ top: 0, behavior: "smooth" });
   showQuestion();
+
+  setTimeout(() => {
+  $("quiz-panel").scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+  }, 100);
 }
 
 function showQuestion() {
