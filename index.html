@@ -17,6 +17,112 @@
   </header>
 
   <main class="container">
+    
+    <!-- AUTENTIKASI SISWA EDUQUEST -->
+    <section id="auth-section" class="auth-section">
+      <div class="section-heading">
+        <span class="eyebrow">🎓 AKUN EDUQUEST</span>
+        <h2>Selamat Datang, Penjelajah!</h2>
+        <p>Masuk atau daftar untuk memulai petualangan belajarmu.</p>
+      </div>
+
+      <div class="auth-forms">
+        <!-- FORM LOGIN -->
+        <form id="login-form">
+          <h3>Masuk ke EduQuest</h3>
+
+          <label for="login-nisn">NISN</label>
+          <input
+            id="login-nisn"
+            name="nisn"
+            type="text"
+            inputmode="numeric"
+            pattern="[0-9]{10}"
+            maxlength="10"
+            placeholder="Masukkan 10 digit NISN"
+            autocomplete="username"
+            required
+          />
+
+          <label for="login-pin">PIN</label>
+          <input
+            id="login-pin"
+            name="pin"
+            type="password"
+            inputmode="numeric"
+            pattern="[0-9]{8,12}"
+            minlength="8"
+            maxlength="12"
+            placeholder="PIN 8–12 digit"
+            autocomplete="current-password"
+            required
+          />
+
+          <button type="submit" class="primary-button">
+            Masuk →
+          </button>
+        </form>
+
+        <!-- FORM PENDAFTARAN -->
+        <form id="register-form">
+          <h3>Daftar Siswa Baru</h3>
+
+          <label for="register-nisn">NISN</label>
+          <input
+            id="register-nisn"
+            name="nisn"
+            type="text"
+            inputmode="numeric"
+            pattern="[0-9]{10}"
+            maxlength="10"
+            placeholder="Masukkan 10 digit NISN"
+            autocomplete="username"
+            required
+          />
+
+          <label for="register-name">Nama lengkap</label>
+          <input
+            id="register-name"
+            name="full_name"
+            type="text"
+            maxlength="100"
+            placeholder="Nama lengkap siswa"
+            autocomplete="name"
+            required
+          />
+
+          <label for="register-class">Kelas</label>
+          <select id="register-class" name="class_name" required>
+            <option value="">Pilih kelas</option>
+            <option value="7">Kelas 7</option>
+            <option value="8">Kelas 8</option>
+            <option value="9">Kelas 9</option>
+          </select>
+
+          <label for="register-pin">Buat PIN</label>
+          <input
+            id="register-pin"
+            name="pin"
+            type="password"
+            inputmode="numeric"
+            pattern="[0-9]{8,12}"
+            minlength="8"
+            maxlength="12"
+            placeholder="Buat PIN 8–12 digit"
+            autocomplete="new-password"
+            required
+          />
+
+          <button type="submit" class="primary-button">
+            Daftar Sekarang →
+          </button>
+        </form>
+      </div>
+
+      <p id="auth-message" role="status" aria-live="polite"></p>
+    </section>
+    <!-- AKHIR AUTENTIKASI SISWA -->
+
     <section class="hero">
       <div class="hero-text">
         <span class="eyebrow">🚀 PETUALANGAN BELAJAR DIMULAI!</span>
@@ -197,6 +303,8 @@
       <p>© 2026 EduQuest · Belajar lebih seru setiap hari ✨</p>
     </footer>
   </main>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="script.js"></script>
 
   <script src="script.js"></script>
 </body>

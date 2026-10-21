@@ -1,5 +1,12 @@
 
+// Koneksi Supabase EduQuest
+const SUPABASE_URL = "https://luygdxdtvswkcsoklrfv.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_S15yEulA9xZ11rK4PrsM2Q_UsDLVysa";
 
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY
+);
 const questionBank = {
   "7": [
     {
