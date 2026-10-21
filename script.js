@@ -686,4 +686,156 @@ function initLeaderboard() {
 
 initLeaderboard();
 
+/* =========================================
+   AUTENTIKASI EDUQUEST
+   Menghubungkan form ke Edge Function
+========================================= */
+
+const loginForm = $("login-form");
+const registerForm = $("register-form");
+const authMessage = $("auth-message");
+
+function showAuthMessage(message, isError = false) {
+  if (!authMessage) return;
+
+  authMessage.textContent = message;
+  authMessage.style.color = isError ? "#c0392b" : "#128451";
+}
+
+function setAuthButtonsLoading(form, loading, normalText) {
+  const button = form.querySelector('button[type="submit"]');
+
+  if (!button) return;
+
+  button.disabled = loading;
+  button.textContent = loading ? "Memproses..." : normalText;
+}
+
+async function callEduQuestAuth(payload) {
+  const { data, error } = await supabaseClient.functions.invoke(
+    "eduquest-login",
+    { body: payload }
+  );
+
+  if (error) {
+    throw new Error(
+      "Tidak dapat menghubungi layanan login. Periksa deployment dan log Edge Function."
+    );
+  }
+
+  if (!data || !data.success) {
+    throw new Error(data?.error || "Permintaan tidak berhasil.");
+  }
+
+  return data;
+}
+
+// PENDAFTARAN SISWA
+loginForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  const nisn = $("login-nisn").value.trim();
+  const pin = $("login-pin").value;
+
+  setAuthButtonsLoading(loginForm, true, "Masuk →");
+  showAuthMessage("Memeriksa data akun...");
+
+  try {
+    const data = await callEduQuestAuth({
+      action: "login",
+      nisn,
+      pin
+    });
+
+    const profile = data.profile;
+
+    if (!profile?.full_name || !["7", "8", "9"].includes(
+      String(profile.class_name)
+    )) {
+      throw new Error("Data profil siswa belum lengkap atau tidak valid.");
+    }
+
+    // Simpan profil aktif untuk fitur progres lokal.
+    // Ini bukan token sesi autentikasi.
+    localStorage.setItem("eduquest-player-name", profile.full_name);
+
+    selectedGrade = String(profile.class_name);
+
+    document.querySelectorAll(".class-button").forEach((button) => {
+      const active = button.dataset.grade === selectedGrade;
+      button.classList.toggle("active", active);
+    });
+
+    $("leaderboard-name").value = profile.full_name.slice(0, 20);
+    $("leaderboard-grade").value = selectedGrade;
+    $("start-quiz").textContent = `Kuis Kelas ${selectedGrade} →`;
+
+    activateProfile(profile.full_name, selectedGrade);
+
+    $("auth-section").hidden = true;
+    $("app-header").hidden = false;
+    $("app-content").hidden = false;
+
+    renderLeaderboard();
+    showAuthMessage("");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  } catch (error) {
+    showAuthMessage(
+      error.message || "Login gagal. Silakan coba kembali.",
+      true
+    );
+  } finally {
+    setAuthButtonsLoading(loginForm, false, "Masuk →");
+  }
+});
+
+// PENDAFTARAN SISWA
+registerForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  const nisn = $("register-nisn").value.trim();
+  const fullName = $("register-name").value.trim();
+  const className = $("register-class").value;
+  const pin = $("register-pin").value;
+
+  setAuthButtonsLoading(
+    registerForm,
+    true,
+    "Daftar Sekarang →"
+  );
+  showAuthMessage("Memeriksa data pendaftaran...");
+
+  try {
+    const data = await callEduQuestAuth({
+      action: "register",
+      nisn,
+      full_name: fullName,
+      class_name: className,
+      pin
+    });
+
+    showAuthMessage(
+      data.message || "Pendaftaran berhasil. Silakan masuk."
+    );
+
+    registerForm.reset();
+
+    // Isi NIS secara otomatis agar siswa bisa langsung masuk.
+    $("login-nisn").value = nisn;
+    $("login-pin").focus();
+  } catch (error) {
+    showAuthMessage(
+      error.message || "Pendaftaran gagal. Silakan coba kembali.",
+      true
+    );
+  } finally {
+    setAuthButtonsLoading(
+      registerForm,
+      false,
+      "Daftar Sekarang →"
+    );
+  }
+});
+
+
 
