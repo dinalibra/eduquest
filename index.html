@@ -6,6 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>EduQuest - Belajar Seru, Naik Level!</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
 </head>
 <body>
   <header class="navbar" id="app-header" hidden>
@@ -31,15 +35,15 @@
         <form id="login-form">
           <h3>Masuk ke EduQuest</h3>
 
-          <label for="login-nisn">NISN</label>
+          <label for="login-nisn">NIS</label>
           <input
             id="login-nisn"
             name="nisn"
             type="text"
             inputmode="numeric"
-            pattern="[0-9]{10}"
-            maxlength="10"
-            placeholder="Masukkan 10 digit NISN"
+            pattern="[0-9]{4}"
+            maxlength="4"
+            placeholder="Masukkan 4 digit NISN"
             autocomplete="username"
             required
           />
@@ -50,10 +54,12 @@
             name="pin"
             type="password"
             inputmode="numeric"
-            pattern="[0-9]{8,12}"
-            minlength="8"
-            maxlength="12"
-            placeholder="PIN 8–12 digit"
+            pattern="[0-9]{6}"
+            minlength="6"
+            maxlength="6"
+            inputmode="numeric"
+            title="PIN harus terdiri dari tepat 6 digit angka"
+            placeholder="PIN 4 digit"
             autocomplete="current-password"
             required
           />
@@ -67,15 +73,15 @@
         <form id="register-form">
           <h3>Daftar Siswa Baru</h3>
 
-          <label for="register-nisn">NISN</label>
+          <label for="register-nisn">NIS</label>
           <input
             id="register-nisn"
             name="nisn"
             type="text"
             inputmode="numeric"
-            pattern="[0-9]{10}"
-            maxlength="10"
-            placeholder="Masukkan 10 digit NISN"
+            pattern="[0-9]{4}"
+            maxlength="4"
+            placeholder="Masukkan 4 digit NISN"
             autocomplete="username"
             required
           />
@@ -105,10 +111,12 @@
             name="pin"
             type="password"
             inputmode="numeric"
-            pattern="[0-9]{8,12}"
-            minlength="8"
-            maxlength="12"
-            placeholder="Buat PIN 8–12 digit"
+            pattern="[0-9]{6}"
+            minlength="6"
+            maxlength="6"
+            inputmode="numeric"
+            title="PIN harus terdiri dari tepat 6 digit angka"
+            placeholder="Buat PIN 4 digit"
             autocomplete="new-password"
             required
           />
