@@ -692,7 +692,6 @@ initLeaderboard();
 ========================================= */
 
 const loginForm = $("login-form");
-const registerForm = $("register-form");
 const authMessage = $("auth-message");
 
 function showAuthMessage(message, isError = false) {
@@ -832,53 +831,7 @@ loginForm.addEventListener("submit", async (event) => {
   }
 });
 
-// PENDAFTARAN SISWA
-registerForm.addEventListener("submit", async (event) => {
-  event.preventDefault();
 
-  const nisn = $("register-nisn").value.trim();
-  const fullName = $("register-name").value.trim();
-  const className = $("register-class").value;
-  const pin = $("register-pin").value;
-
-  setAuthButtonsLoading(
-    registerForm,
-    true,
-    "Daftar Sekarang →"
-  );
-  showAuthMessage("Memeriksa data pendaftaran...");
-
-  try {
-    const data = await callEduQuestAuth({
-      action: "register",
-      nisn,
-      full_name: fullName,
-      class_name: className,
-      pin
-    });
-
-    showAuthMessage(
-      data.message || "Pendaftaran berhasil. Silakan masuk."
-    );
-
-    registerForm.reset();
-
-    // Isi NIS secara otomatis agar siswa bisa langsung masuk.
-    $("login-nisn").value = nisn;
-    $("login-pin").focus();
-  } catch (error) {
-    showAuthMessage(
-      error.message || "Pendaftaran gagal. Silakan coba kembali.",
-      true
-    );
-  } finally {
-    setAuthButtonsLoading(
-      registerForm,
-      false,
-      "Daftar Sekarang →"
-    );
-  }
-});
 
 
 

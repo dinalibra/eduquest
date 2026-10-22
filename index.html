@@ -68,63 +68,6 @@
             Masuk →
           </button>
         </form>
-
-        <!-- FORM PENDAFTARAN -->
-        <form id="register-form">
-          <h3>Daftar Siswa Baru</h3>
-
-          <label for="register-nisn">NIS</label>
-          <input
-            id="register-nisn"
-            name="nisn"
-            type="text"
-            inputmode="numeric"
-            pattern="[0-9]{4}"
-            maxlength="4"
-            placeholder="Masukkan 4 digit NISN"
-            autocomplete="username"
-            required
-          />
-
-          <label for="register-name">Nama lengkap</label>
-          <input
-            id="register-name"
-            name="full_name"
-            type="text"
-            maxlength="100"
-            placeholder="Nama lengkap siswa"
-            autocomplete="name"
-            required
-          />
-
-          <label for="register-class">Kelas</label>
-          <select id="register-class" name="class_name" required>
-            <option value="">Pilih kelas</option>
-            <option value="7">Kelas 7</option>
-            <option value="8">Kelas 8</option>
-            <option value="9">Kelas 9</option>
-          </select>
-
-          <label for="register-pin">Buat PIN</label>
-          <input
-            id="register-pin"
-            name="pin"
-            type="password"
-            inputmode="numeric"
-            pattern="[0-9]{6}"
-            minlength="6"
-            maxlength="6"
-            inputmode="numeric"
-            title="PIN harus terdiri dari tepat 6 digit angka"
-            placeholder="Buat PIN 6 digit"
-            autocomplete="new-password"
-            required
-          />
-
-          <button type="submit" class="primary-button">
-            Daftar Sekarang →
-          </button>
-        </form>
       </div>
 
       <p id="auth-message" role="status" aria-live="polite"></p>
