@@ -718,6 +718,49 @@ async function callEduQuestAuth(payload) {
   );
 
   if (error) {
+    let details = error.message || "Tidak diketahui";
+    const status = error.context?.status;
+
+    if (error.context) {
+      try {
+        const response = error.context.clone();
+        const body = await response.json();
+
+        details =
+          body?.error ||
+          body?.message ||
+          JSON.stringify(body);
+      } catch {
+        // Pertahankan pesan error jika respons bukan JSON.
+      }
+    }
+
+    console.error("EduQuest Auth Error:", {
+      status,
+      name: error.name,
+      message: error.message,
+      details
+    });
+
+    throw new Error(
+      `Layanan login gagal${status ? ` (HTTP ${status})` : ""}: ${details}`
+    );
+  }
+
+  if (!data || !data.success) {
+    throw new Error(data?.error || "Permintaan tidak berhasil.");
+  }
+
+  return data;
+}
+
+/* async function callEduQuestAuth(payload) {
+  const { data, error } = await supabaseClient.functions.invoke(
+    "eduquest-login",
+    { body: payload }
+  );
+
+  if (error) {
     throw new Error(
       "Tidak dapat menghubungi layanan login. Periksa deployment dan log Edge Function."
     );
@@ -728,7 +771,7 @@ async function callEduQuestAuth(payload) {
   }
 
   return data;
-}
+} */
 
 // PENDAFTARAN SISWA
 loginForm.addEventListener("submit", async (event) => {
